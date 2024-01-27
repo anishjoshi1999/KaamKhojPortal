@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+
 app.get("/", async (req, res) => {
   try {
     res.render("index.ejs");
@@ -50,6 +51,9 @@ app.get("/:type/:value", async (req, res) => {
     console.error("Error fetching data from the API:", error.message);
     res.render("error.ejs"); // Render an error page or handle the error accordingly
   }
+});
+app.use((req, res, next) => {
+  res.status(404).render("error.ejs");
 });
 app.listen(4000, () => {
   console.log("Listening on PORT 4000");
