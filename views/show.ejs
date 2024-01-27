@@ -11,7 +11,8 @@
         <tr>
           <th>Job Name</th>
           <th>Desired Salary</th>
-          <th>Employee Name</th>
+          <th>Job Description</th>
+          <th>Employer Name</th>
           <th>Contact Number</th>
           <th>Location</th>
           <th>Created Time</th>
@@ -21,8 +22,9 @@
         <% jobsData.jobs.forEach((job) => { %>
         <tr>
           <td><%= job.jobName %></td>
-          <td><%= job.desiredSalary %></td>
-          <td><%= job.employeeName %></td>
+          <td><%= job.salary %></td>
+          <td><%= job.description %></td>
+          <td><%= job.ownerName %></td>
           <td><%= job.contactNumber %></td>
           <td><%= job.location %></td>
           <td><%= job.createdTime %></td>
