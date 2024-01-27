@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Job Name</th>
+          <th>Desired Salary</th>
+          <th>Employee Name</th>
+          <th>Contact Number</th>
+          <th>Location</th>
+          <th>Created Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% jobsData.jobs.forEach((job) => { %>
+        <tr>
+          <td><%= job.jobName %></td>
+          <td><%= job.desiredSalary %></td>
+          <td><%= job.employeeName %></td>
+          <td><%= job.contactNumber %></td>
+          <td><%= job.location %></td>
+          <td><%= job.createdTime %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </body>
+</html>

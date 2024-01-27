@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Your are searching for <%=type%></h2>
+    <% jobsData.forEach((element) => { %>
+        <h1><a href="/<%=type%>/<%= element.name %>"><%= element.name %>:</a> <%= element.totalAvailableJobs %></h1>
+    <% }) %>
+</body>
+</html>
