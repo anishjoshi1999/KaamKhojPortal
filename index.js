@@ -22,7 +22,7 @@ app.get("/", async (req, res) => {
 app.get("/jobs", async (req, res) => {
   try {
     // Fetch data from the API using Axios
-    const apiResponse = await axios.get(`http://localhost:3000/api/jobs`);
+    const apiResponse = await axios.get(`https://kaamkhoj.cyclic.app/api/jobs`);
 
     // Extract the relevant data from the API response
     const jobsData = apiResponse.data;
@@ -58,7 +58,7 @@ app.post("/upload", async (req, res) => {
     console.log(req.body);
 
     // Create a POST request using Axios
-    const apiUrl = "http://localhost:3000/api/upload"; // Replace with your actual API endpoint
+    const apiUrl = "https://kaamkhoj.cyclic.app/api/upload"; // Replace with your actual API endpoint
     const response = await axios.post(apiUrl, req.body);
 
     // Log the response from the API
@@ -78,7 +78,7 @@ app.get("/search", async (req, res) => {
       res.status(400).json({ error: "Search query is required." });
       return;
     }
-    const searchUrl = "http://localhost:3000/api/search";
+    const searchUrl = "https://kaamkhoj.cyclic.app/api/search";
     const response = await axios.get(searchUrl, {
       params: {
         searchQuery: searchQuery,
