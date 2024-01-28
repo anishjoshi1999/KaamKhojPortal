@@ -104,7 +104,7 @@ app.get("/refresh", (req, res) => {
 });
 app.get("/view", async (req, res) => {
   try {
-    const response = await axios.get("http://localhost:3000/api/view");
+    const response = await axios.get("https://kaamkhoj.cyclic.app/api/view");
     let temp = response.data;
     res.render("viewProfile", { jobsData: temp });
   } catch (error) {
