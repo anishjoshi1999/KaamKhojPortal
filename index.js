@@ -44,6 +44,58 @@ app.post("/jobs", async (req, res) => {
     res.render("error.ejs"); // Render an error page or handle the error accordingly
   }
 });
+app.get("/upload", async (req, res) => {
+  try {
+    res.render("form.ejs");
+  } catch (error) {
+    console.error("Error fetching data from the API:", error.message);
+    res.render("error.ejs"); // Render an error page or handle the error accordingly
+  }
+});
+app.post("/upload", async (req, res) => {
+  try {
+    // Log the received form data
+    console.log(req.body);
+
+    // Create a POST request using Axios
+    const apiUrl = "https://kaamkhoj.cyclic.app/api/upload"; // Replace with your actual API endpoint
+    const response = await axios.post(apiUrl, req.body);
+
+    // Log the response from the API
+    console.log(response.data);
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error handling form submission:", error.message);
+    res.render("error.ejs"); // Render an error page or handle the error accordingly
+  }
+});
+app.get("/search", async (req, res) => {
+  try {
+    const searchQuery = req.query.searchQuery; // Get the search query from the request parameters
+
+    if (!searchQuery) {
+      // If no search query is provided, you can handle it as needed
+      res.status(400).json({ error: "Search query is required." });
+      return;
+    }
+    const searchUrl = "https://kaamkhoj.cyclic.app/api/search";
+    const response = await axios.get(searchUrl, {
+      params: {
+        searchQuery: searchQuery,
+      },
+    });
+    let value = {
+      name: searchQuery,
+      jobs: response.data.matchedJobs,
+      totalAvailableJobs: response.data.matchedJobs.length,
+    };
+
+    res.render("show.ejs", { jobsData: value });
+  } catch (error) {
+    console.error("Error fetching data from the API:", error.message);
+    res.render("error.ejs"); // Render an error page or handle the error accordingly
+  }
+});
 app.use((req, res, next) => {
   res.status(404).render("error.ejs");
 });
