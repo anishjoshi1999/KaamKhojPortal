@@ -19,34 +19,26 @@ app.get("/", async (req, res) => {
     res.render("error.ejs"); // Render an error page or handle the error accordingly
   }
 });
-app.get("/:type", async (req, res) => {
+app.get("/jobs", async (req, res) => {
   try {
-    const { type } = req.params;
     // Fetch data from the API using Axios
-    const apiResponse = await axios.get(
-      `https://kaamkhoj.cyclic.app/api/${type}`
-    );
+    const apiResponse = await axios.get(`https://kaamkhoj.cyclic.app/api/jobs`);
 
     // Extract the relevant data from the API response
     const jobsData = apiResponse.data;
 
     // Render the "index.ejs" view with the fetched data
-    res.render("kaamkhoj.ejs", { jobsData, type });
+    res.render("kaamkhoj.ejs", { jobsData });
   } catch (error) {
     console.error("Error fetching data from the API:", error.message);
     res.render("error.ejs"); // Render an error page or handle the error accordingly
   }
 });
-app.get("/:type/:value", async (req, res) => {
+app.post("/jobs", async (req, res) => {
   try {
-    const { type, value } = req.params;
-    const apiResponse = await axios.get(
-      `https://kaamkhoj.cyclic.app/api/${type}`
-    );
-    const temp = apiResponse.data.filter((element) => {
-      return element.name === value;
-    });
-    res.render("show.ejs", { jobsData: temp[0], type });
+    const { jobData } = req.body;
+    const parsedJobData = JSON.parse(jobData);
+    res.render("show.ejs", { jobsData: parsedJobData });
   } catch (error) {
     console.error("Error fetching data from the API:", error.message);
     res.render("error.ejs"); // Render an error page or handle the error accordingly
