@@ -1,8 +1,39 @@
-<%- include('./partials/header.ejs')  %>
-<div class="container py-5 text-center vh-100">
-  <h1 class="mb-4">Welcome to KaamKhoj Portal</h1>
-  <h2><a href="/jobs" class="btn btn-lg btn-primary">Job Provider from HamroBazzar</a></h2>
-  <h2><a href="/upload" class="btn btn-lg btn-primary">Upload Client's Information
-  </a></h2>
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/navbar.ejs') %>
+<div style="margin-top: 50px;">
+  <div class="container py-5 vh-100">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body text-center">
+            <h2 class="card-title mb-4">Job Provider's from HamroBazzar</h2>
+            <a href="/jobs" class="btn btn-lg btn-primary">View Jobs</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body text-center">
+            <h2 class="card-title mb-4">Upload Job Seekers / Providers Information</h2>
+            <a href="/upload" class="btn btn-lg btn-primary">Upload Information</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body text-center">
+            <h2 class="card-title mb-4">View Profile (Seeker's and Provider's)</h2>
+            <a href="/view" class="btn btn-lg btn-primary">View Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<%- include('./partials/footer.ejs')  %>
+
+
+
+
+  <%- include('./partials/footer.ejs') %>

@@ -22,7 +22,7 @@ app.get("/", async (req, res) => {
 app.get("/jobs", async (req, res) => {
   try {
     // Fetch data from the API using Axios
-    const apiResponse = await axios.get(`https://kaamkhoj.cyclic.app/api/jobs`);
+    const apiResponse = await axios.get(`http://localhost:3000/api/jobs`);
 
     // Extract the relevant data from the API response
     const jobsData = apiResponse.data;
@@ -58,7 +58,7 @@ app.post("/upload", async (req, res) => {
     console.log(req.body);
 
     // Create a POST request using Axios
-    const apiUrl = "https://kaamkhoj.cyclic.app/api/upload"; // Replace with your actual API endpoint
+    const apiUrl = "http://localhost:3000/api/upload"; // Replace with your actual API endpoint
     const response = await axios.post(apiUrl, req.body);
 
     // Log the response from the API
@@ -78,7 +78,7 @@ app.get("/search", async (req, res) => {
       res.status(400).json({ error: "Search query is required." });
       return;
     }
-    const searchUrl = "https://kaamkhoj.cyclic.app/api/search";
+    const searchUrl = "http://localhost:3000/api/search";
     const response = await axios.get(searchUrl, {
       params: {
         searchQuery: searchQuery,
@@ -91,6 +91,22 @@ app.get("/search", async (req, res) => {
     };
 
     res.render("show.ejs", { jobsData: value });
+  } catch (error) {
+    console.error("Error fetching data from the API:", error.message);
+    res.render("error.ejs"); // Render an error page or handle the error accordingly
+  }
+});
+app.get("/refresh", (req, res) => {
+  let apiURL = "https://kaamkhoj.cyclic.app/kaamkhoj/jobs";
+  const response = axios.get("https://kaamkhoj.cyclic.app/kaamkhoj/jobs");
+  console.log("Route Hit for Refreshing the Data");
+  res.redirect("/jobs");
+});
+app.get("/view", async (req, res) => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/view");
+    let temp = response.data;
+    res.render("viewProfile", { jobsData: temp });
   } catch (error) {
     console.error("Error fetching data from the API:", error.message);
     res.render("error.ejs"); // Render an error page or handle the error accordingly
