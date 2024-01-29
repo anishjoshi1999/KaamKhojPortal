@@ -1,120 +1,107 @@
+// Import required modules
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const axios = require("axios");
-//Middleware
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
+const User = require("./Models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { jwtSecret, PORT, MONGODB_URI } = require("./utils/constants");
+// Load environment variables
 dotenv.config();
 
+// Import utility function to connect to MongoDB
+const connectDB = require("./utils/connectDB");
+
+// Create Express app
 const app = express();
+
+// Configure middleware
 app.use(cors());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: MONGODB_URI,
+    }),
+  })
+);
 
-app.get("/", async (req, res) => {
+// Import Routes
+const kaamKhojRoute = require("./Routes/kaamKhoj");
+const apiRoute = require("./Routes/apiRoute");
+
+// Connect to MongoDB
+connectDB(MONGODB_URI);
+
+// Authentication Middleware
+const { authMiddleware } = require("./Middleware/middleware");
+
+// Admin Route
+app.get("/auth", async (req, res) => {
   try {
-    res.render("index.ejs");
+    res.render("login.ejs", { userAuthenticated: req.userId });
   } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
+    console.log(error);
   }
 });
-app.get("/jobs", async (req, res) => {
-  try {
-    // Fetch data from the API using Axios
-    const apiResponse = await axios.get(`https://kaamkhoj.cyclic.app/api/jobs`);
 
-    // Extract the relevant data from the API response
-    const jobsData = apiResponse.data;
-
-    // Render the "index.ejs" view with the fetched data
-    res.render("kaamkhoj.ejs", { jobsData });
-  } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
-  }
-});
-app.post("/jobs", async (req, res) => {
+// Authentication route
+app.post("/auth", async (req, res) => {
   try {
-    const { jobData } = req.body;
-    const parsedJobData = JSON.parse(jobData);
-    res.render("show.ejs", { jobsData: parsedJobData });
-  } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
-  }
-});
-app.get("/upload", async (req, res) => {
-  try {
-    res.render("form.ejs");
-  } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
-  }
-});
-app.post("/upload", async (req, res) => {
-  try {
-    // Log the received form data
-    console.log(req.body);
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
 
-    // Create a POST request using Axios
-    const apiUrl = "https://kaamkhoj.cyclic.app/api/upload"; // Replace with your actual API endpoint
-    const response = await axios.post(apiUrl, req.body);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-    // Log the response from the API
-    console.log(response.data);
+    const token = jwt.sign({ userId: user._id }, jwtSecret);
+    res.cookie("token", token, { httpOnly: true });
+
     res.redirect("/");
   } catch (error) {
-    console.error("Error handling form submission:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
+    console.log(error);
   }
 });
-app.get("/search", async (req, res) => {
+
+// Logout route
+app.get("/logout", async (req, res) => {
+  await res.clearCookie("token");
+  res.redirect("/");
+});
+
+// Home Route
+app.get("/", authMiddleware, async (req, res) => {
   try {
-    const searchQuery = req.query.searchQuery; // Get the search query from the request parameters
-
-    if (!searchQuery) {
-      // If no search query is provided, you can handle it as needed
-      res.status(400).json({ error: "Search query is required." });
-      return;
-    }
-    const searchUrl = "https://kaamkhoj.cyclic.app/api/search";
-    const response = await axios.get(searchUrl, {
-      params: {
-        searchQuery: searchQuery,
-      },
-    });
-    let value = {
-      name: searchQuery,
-      jobs: response.data.matchedJobs,
-      totalAvailableJobs: response.data.matchedJobs.length,
-    };
-
-    res.render("show.ejs", { jobsData: value });
+    res.render("index.ejs", { userAuthenticated: req.userId });
   } catch (error) {
     console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
+    res.render("error.ejs");
   }
 });
-app.get("/refresh", (req, res) => {
-  let apiURL = "https://kaamkhoj.cyclic.app/kaamkhoj/jobs";
-  const response = axios.get("https://kaamkhoj.cyclic.app/kaamkhoj/jobs");
-  console.log("Route Hit for Refreshing the Data");
-  res.redirect("/jobs");
-});
-app.get("/view", async (req, res) => {
-  try {
-    const response = await axios.get("https://kaamkhoj.cyclic.app/api/view");
-    let temp = response.data;
-    res.render("viewProfile", { jobsData: temp });
-  } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
-  }
-});
+
+// API routes
+app.use("/api", authMiddleware, apiRoute);
+
+// KaamKhoj routes
+app.use("/kaamkhoj", authMiddleware, kaamKhojRoute);
+
+// 404 Route
 app.use((req, res, next) => {
   res.status(404).render("error.ejs");
 });
-app.listen(4000, () => {
-  console.log("Listening on PORT 4000");
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
