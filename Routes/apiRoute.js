@@ -2,7 +2,6 @@ const express = require("express");
 const Job = require("../Models/Job");
 const Upload = require("../Models/Upload");
 const { jobFilterMethod } = require("../utils/filterMethod");
-
 const router = express.Router();
 
 router.get("/jobs", async (req, res) => {

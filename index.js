@@ -1,18 +1,24 @@
+// Import required modules
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const User = require("./Models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// Middleware
+const { jwtSecret, PORT, MONGODB_URI } = require("./utils/constants");
+// Load environment variables
 dotenv.config();
-const jwtSecret = process.env.JWT_SECRET;
+
+// Import utility function to connect to MongoDB
+const connectDB = require("./utils/connectDB");
+
+// Create Express app
 const app = express();
 
+// Configure middleware
 app.use(cors());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
@@ -25,48 +31,20 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
+      mongoUrl: MONGODB_URI,
     }),
   })
 );
-
-// Constants
-const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI;
 
 // Import Routes
 const kaamKhojRoute = require("./Routes/kaamKhoj");
 const apiRoute = require("./Routes/apiRoute");
 
 // Connect to MongoDB
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-    console.log("Connected to MongoDB Atlas");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB Atlas:", err);
-  });
+connectDB(MONGODB_URI);
 
 // Authentication Middleware
-const authMiddleware = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.redirect("/auth");
-  }
-
-  try {
-    const decoded = jwt.verify(token, jwtSecret);
-    req.userId = decoded.userId;
-    next();
-  } catch (error) {
-    res.redirect("/auth");
-    res.status(401).json({ message: "Unauthorized" });
-  }
-};
+const { authMiddleware } = require("./Middleware/middleware");
 
 // Admin Route
 app.get("/auth", async (req, res) => {
@@ -77,6 +55,7 @@ app.get("/auth", async (req, res) => {
   }
 });
 
+// Authentication route
 app.post("/auth", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -95,8 +74,9 @@ app.post("/auth", async (req, res) => {
   }
 });
 
-app.get("/logout", (req, res) => {
-  res.clearCookie("token");
+// Logout route
+app.get("/logout", async (req, res) => {
+  await res.clearCookie("token");
   res.redirect("/");
 });
 
@@ -110,11 +90,18 @@ app.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Routes
+// API routes
 app.use("/api", authMiddleware, apiRoute);
+
+// KaamKhoj routes
 app.use("/kaamkhoj", authMiddleware, kaamKhojRoute);
 
 // 404 Route
 app.use((req, res, next) => {
   res.status(404).render("error.ejs");
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
