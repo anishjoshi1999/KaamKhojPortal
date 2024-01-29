@@ -1,0 +1,45 @@
+<%- include('./partials/header.ejs')  %>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">KaamKhoj</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/api/jobs">HamroBazzar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/upload">Upload Information</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/view">View Profile</a>
+        </li>
+      </ul>
+      <% if (userAuthenticated) { %>
+        <!-- Show logout button if user is authenticated -->
+        <a href="/logout" class="btn btn-outline-danger">Logout</a>
+      <% }  %>
+    </div>
+  </div>
+</nav>
+
+<div style="margin-top: 80px;"><div class="container">
+  <h3 class="display-6 text-center">KaamKhoj Portal</h3>
+  <form action="/auth" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">Username</label>
+      <input type="text" class="form-control" id="name" name="username" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+</div>
+<%- include('./partials/footer.ejs')  %>

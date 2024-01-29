@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/jobs", async (req, res) => {
   try {
     let jobsData = await jobFilterMethod();
-    res.render("kaamkhoj.ejs", { jobsData });
+    res.render("kaamkhoj.ejs", { jobsData, userAuthenticated: req.userId });
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
@@ -19,14 +19,17 @@ router.post("/jobs", async (req, res) => {
   try {
     const { jobData } = req.body;
     const parsedJobData = JSON.parse(jobData);
-    res.render("show.ejs", { jobsData: parsedJobData });
+    res.render("show.ejs", {
+      jobsData: parsedJobData,
+      userAuthenticated: req.userId,
+    });
   } catch (error) {
     console.error("Error fetching data from the API:", error.message);
     res.render("error.ejs"); // Render an error page or handle the error accordingly
   }
 });
 router.get("/upload", async (req, res) => {
-  res.render("form");
+  res.render("form", { userAuthenticated: req.userId });
 });
 router.post("/upload", async (req, res) => {
   try {
@@ -97,7 +100,7 @@ router.get("/search", async (req, res) => {
       totalAvailableJobs: matchedJobs.length,
     };
 
-    res.render("show.ejs", { jobsData: value });
+    res.render("show.ejs", { jobsData: value, userAuthenticated: req.userId });
   } catch (error) {
     console.error("Error while searching:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -107,8 +110,10 @@ router.get("/search", async (req, res) => {
 router.get("/view", async (req, res) => {
   try {
     let temp = await Upload.find({});
-    console.log(temp);
-    res.render("viewProfile", { jobsData: temp });
+    res.render("viewProfile", {
+      jobsData: temp,
+      userAuthenticated: req.userId,
+    });
   } catch (error) {
     console.error("Error handling form submission:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
