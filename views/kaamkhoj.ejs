@@ -3,7 +3,7 @@
 <!-- Create a search box -->
 <div style="margin-top: 80px;">
     <div class="container my-4">
-        <form action="/search" method="GET">
+        <form action="/api/search" method="GET">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search jobs..." name="searchQuery">
                 <button class="btn btn-primary" type="submit">Search</button>
@@ -15,7 +15,7 @@
     <div class="container py-5 vh-100">
         <div class="mb-4">
             <h3>To Fetch Latest Data From HamroBazzar</h3>
-            <a class="btn btn-primary" href="/refresh" onclick="showMessage()">Click here</a>
+            <a class="btn btn-primary" href="/kaamkhoj/jobs" onclick="showMessage()">Click here</a>
         </div>
     
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title"><%= element.name %>: <%= element.totalAvailableJobs %></h5>
-                            <form action="/jobs" method="POST">
+                            <form action="/api/jobs" method="POST">
                                 <input id="<%= element.name %>" style="display: none;" type="text" name="jobData" value='<%= JSON.stringify(element) %>'>
                                 <button type="submit" class="btn btn-primary">See More</button>
                             </form>
