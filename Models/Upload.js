@@ -20,6 +20,10 @@ const uploadSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  createdTime: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Upload = mongoose.model("Upload", uploadSchema);

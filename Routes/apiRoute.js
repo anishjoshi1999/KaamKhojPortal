@@ -107,6 +107,7 @@ router.get("/search", async (req, res) => {
 router.get("/view", async (req, res) => {
   try {
     let temp = await Upload.find({});
+    console.log(temp);
     res.render("viewProfile", { jobsData: temp });
   } catch (error) {
     console.error("Error handling form submission:", error.message);

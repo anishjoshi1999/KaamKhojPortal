@@ -25,7 +25,7 @@
                             <td><%= job.role %></td>
                             <td><%= job.contactNumber %></td>
                             <td><%= job.location %></td>
-                            <td><%= job.contactNumber %></td>
+                            <td><%= job.createdTime.toLocaleString() %></td>
                         </tr>
                     <% }) %>
                 <% } else { %>
