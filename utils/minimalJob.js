@@ -1,7 +1,7 @@
 const axios = require("axios");
 const Job = require("../Models/Job");
 const { toTitleCase, checkForSalary } = require("./usefulMethods");
-
+const { APIKEY, DEVICEID } = require("./constants");
 async function fetchData() {
   try {
     const response = await axios.get(
@@ -11,10 +11,10 @@ async function fetchData() {
           accept: "application/json, text/plain, */*",
           "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,la;q=0.7,ne;q=0.6",
           "access-control-allow-origin": "*",
-          apikey: "09BECB8F84BCB7A1796AB12B98C1FB9E",
+          apikey: `${APIKEY}`,
           "cache-control": "no-cache",
           country_code: "null",
-          deviceid: "89700155-17fd-452c-b9e4-718f5dc70c5f",
+          deviceid: `${DEVICEID}`,
           devicesource: "web",
           pragma: "no-cache",
           "sec-ch-ua":
