@@ -1,27 +1,27 @@
-<%- include('./partials/header.ejs')  %>
+<%- include('./partials/header.ejs') %>
 
 <!-- main content -->
 <main class="container-fluid">
   <section class="row">
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-4 mb-4">
       <!-- card -->
-      <article class="p-4 rounded shadow-sm border-left mb-4">
+      <article class="p-4 rounded shadow-sm border-left">
         <a href="/api/jobs" class="d-flex align-items-center">
           <span class="bi bi-box h5"></span>
           <h5 class="ml-2">HamroBazzar</h5>
         </a>
       </article>
     </div>
-    <div class="col-md-6 col-lg-4">
-      <article class="p-4 rounded shadow-sm border-left mb-4">
+    <div class="col-md-4 mb-4">
+      <article class="p-4 rounded shadow-sm border-left">
         <a href="/api/upload" class="d-flex align-items-center">
           <span class="bi bi-person h5"></span>
           <h5 class="ml-2">Upload</h5>
         </a>
       </article>
     </div>
-    <div class="col-md-6 col-lg-4">
-      <article class="p-4 rounded shadow-sm border-left mb-4">
+    <div class="col-md-4 mb-4">
+      <article class="p-4 rounded shadow-sm border-left">
         <a href="/api/view" class="d-flex align-items-center">
           <span class="bi bi-person-check h5"></span>
           <h5 class="ml-2">View Information</h5>
@@ -32,12 +32,149 @@
 
   <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left px-4">
     <div class="container">
-      <h1 class="display-4 mb-2 text-primary">KaamKhoj</h1>
-      <p class="lead text-muted">
-        KaamKhoj Web Portal
-      </p>
+      <h1 class="display-4 mb-2 text-primary">KaamKhoj Insight</h1>
+
+      <div class="row mt-5">
+  
+        <div class="col-lg-6 mb-4">
+          <div class="card" style="width: 100%; max-width: 500px;">
+            <canvas id="myChartSeeker" style="width: 100%; height: auto;"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card" style="width: 100%; max-width: 500px;">
+            <canvas id="myChartProvider" style="width: 100%; height: auto;"></canvas>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card" style="width: 100%; max-width: 250px;">
+            <canvas id="myPieChart" style="width: 100%; height: auto;"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Dummy data for the pie chart
+  var data = {
+    labels: ["Job Provider", "Job Seeker"],
+    datasets: [
+      {
+        data: [<%= count.jobProviderCount %>, <%= count.jobSeekerCount %>],
+        backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
 
-<%- include('./partials/footer.ejs')  %>
+      'rgba(75, 192, 192, 0.2)',
+      
+    ],
+    borderColor: [
+    'rgba(255, 99, 132, 0.2)',
+
+'rgba(75, 192, 192, 0.2)',
+    ],
+      },
+    ],
+  };
+
+  // Get the canvas element for pie chart
+  var ctxPie = document.getElementById("myPieChart").getContext("2d");
+
+  // Create a pie chart
+  var myPieChart = new Chart(ctxPie, {
+    type: "pie",
+    data: data,
+  });
+</script>
+<script>
+  // Dummy data for the bar chart
+  const barData = {
+    labels: ['Cook', 'Helper', 'Driver', 'Sales', 'Others'],
+    datasets: [{
+      label: 'Job Seekers',
+      data: [1200, 1900, 300, 500, 200, 300],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+      borderWidth: 1
+    }]
+  };
+
+  // Get the canvas element for bar chart
+  const ctxBar = document.getElementById('myChartSeeker').getContext('2d');
+
+  // Create a bar chart
+  new Chart(ctxBar, {
+    type: 'bar',
+    data: barData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+<script>
+  // Dummy data for the bar chart
+  const barData1 = {
+    labels: ['Cook', 'Helper', 'Driver', 'Sales', 'Others'],
+    datasets: [{
+      label: 'Job Providers',
+      data: [1200, 1900, 300, 500, 200, 300],
+      backgroundColor: [
+      'rgba(255, 99, 132, 0.2)',
+      'rgba(255, 159, 64, 0.2)',
+      'rgba(255, 205, 86, 0.2)',
+      'rgba(75, 192, 192, 0.2)',
+      'rgba(54, 162, 235, 0.2)',
+      'rgba(153, 102, 255, 0.2)',
+      'rgba(201, 203, 207, 0.2)'
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+    ],
+      borderWidth: 1
+    }]
+  };
+
+  // Get the canvas element for bar chart
+  const ctxBar1 = document.getElementById('myChartProvider').getContext('2d');
+
+  // Create a bar chart
+  new Chart(ctxBar1, {
+    type: 'bar',
+    data: barData1,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+<%- include('./partials/footer.ejs') %>

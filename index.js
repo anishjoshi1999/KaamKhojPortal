@@ -7,6 +7,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const User = require("./Models/User");
 const bcrypt = require("bcrypt");
+const Upload = require("./Models/Upload");
 const methodOverride = require("method-override");
 const jwt = require("jsonwebtoken");
 const { jwtSecret, PORT, MONGODB_URI } = require("./utils/constants");
@@ -84,7 +85,23 @@ app.get("/logout", async (req, res) => {
 // Home Route
 app.get("/", authMiddleware, async (req, res) => {
   try {
-    res.render("index.ejs", { userAuthenticated: req.userId });
+    // Count job seekers
+    const allRecords = await Upload.find({});
+
+    // Count job providers
+    // Use array methods to filter job seekers and job providers
+    const jobSeekerCount = allRecords.filter(
+      (record) => record.role === "jobSeeker"
+    ).length;
+    const jobProviderCount = allRecords.filter(
+      (record) => record.role === "jobProvider"
+    ).length;
+    let count = {
+      jobSeekerCount,
+      jobProviderCount,
+    };
+
+    res.render("index.ejs", { userAuthenticated: req.userId, count });
   } catch (error) {
     res.render("error", { error });
   }
