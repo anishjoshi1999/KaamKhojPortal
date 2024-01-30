@@ -10,6 +10,7 @@ const uploadSchema = new mongoose.Schema({
   },
   contactNumber: {
     type: String,
+    unique: true,
   },
   location: {
     type: String,

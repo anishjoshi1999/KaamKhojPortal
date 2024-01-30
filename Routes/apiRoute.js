@@ -46,7 +46,6 @@ router.post("/upload", async (req, res) => {
     // Save the new upload to the database
     const savedUpload = await newUpload.save();
     res.redirect("/");
-    res.status(201).json({ message: "Upload successful", data: savedUpload });
   } catch (error) {
     console.error("Error handling form submission:", error.message);
     res.status(500).json({ error: "Internal Server Error" });

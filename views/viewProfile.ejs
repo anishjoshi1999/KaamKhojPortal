@@ -54,10 +54,15 @@
           <td><%= job.role %></td>
           <td><%= job.contactNumber %></td>
           <td><%= job.location %></td>
-          <td style="background-color: <%= job.availability ? 'green' : 'red' %>;"><%= job.availability.toString().toUpperCase() %></td>
+          <td class="<%= job.availability ? 'bg-success' : 'bg-danger' %> text-white">
+            <%= job.availability.toString().toUpperCase() %>
+          </td>          
           <td><%= job.createdTime.toLocaleString() %></td>
           <td>
-            <form action="/api/view/<%=job._id%>" method="GET">
+            <form action="#" method="GET" style="display: inline;">
+              <button type="submit" class="btn btn-sm btn-success">View</button>
+            </form>
+            <form action="/api/view/<%=job._id%>" method="GET" style="display: inline;">
               <!-- Hidden input fields with the job data -->
               <input type="hidden" name="name" value="<%= job.name %>">
               <input type="hidden" name="salary" value="<%= job.salary %>">
@@ -69,13 +74,10 @@
               <input type="hidden" name="createdTime" value="<%= job.createdTime %>">
               <button type="submit" class="btn btn-sm btn-primary">Edit</button>
             </form>
-            <form action="/api/delete/<%= job._id %>" method="POST">
-              <!-- Add this hidden input field for method override -->
+            <form action="/api/delete/<%= job._id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
               <input type="hidden" name="_method" value="DELETE">
-              <!-- Other form fields go here -->
               <button type="submit" class="btn btn-sm btn-danger">Delete</button>
             </form>
-            
           </td>
         </tr>
         <% }) %>
