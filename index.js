@@ -7,6 +7,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const User = require("./Models/User");
 const bcrypt = require("bcrypt");
+const methodOverride = require("method-override");
 const jwt = require("jsonwebtoken");
 const { jwtSecret, PORT, MONGODB_URI } = require("./utils/constants");
 // Load environment variables
@@ -35,7 +36,7 @@ app.use(
     }),
   })
 );
-
+app.use(methodOverride("_method"));
 // Import Routes
 const kaamKhojRoute = require("./Routes/kaamKhoj");
 const apiRoute = require("./Routes/apiRoute");

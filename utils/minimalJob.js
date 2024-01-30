@@ -64,9 +64,7 @@ async function fetchData() {
       jobName: toTitleCase(element.name),
       salary: checkForSalary(element.price),
       ownerName: toTitleCase(element.creatorInfo.createdByName),
-      description: element.description
-        ? element.description.trim()
-        : "No Username",
+      description: element.description,
       contactNumber: toTitleCase(element.creatorInfo.createdByUsername),
       location: toTitleCase(element.location.locationDescription),
       createdTime: element.createdTime,

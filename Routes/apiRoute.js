@@ -32,6 +32,7 @@ router.get("/upload", async (req, res) => {
 });
 router.post("/upload", async (req, res) => {
   try {
+    const availability = req.body.availability === "true";
     // Create a new instance of the Upload model with data from the request body
     const newUpload = new Upload({
       name: req.body.name,
@@ -40,12 +41,12 @@ router.post("/upload", async (req, res) => {
       location: req.body.location,
       salary: req.body.salary,
       description: req.body.description,
+      availability: availability,
     });
     // Save the new upload to the database
     const savedUpload = await newUpload.save();
-    console.log("Upload saved successfully:", savedUpload);
     res.redirect("/");
-    // res.status(201).json({ message: "Upload successful", data: savedUpload });
+    res.status(201).json({ message: "Upload successful", data: savedUpload });
   } catch (error) {
     console.error("Error handling form submission:", error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -118,5 +119,75 @@ router.get("/view", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.get("/view/:id", async (req, res) => {
+  const { id } = req.params;
+  let docs = await Upload.findById(id);
+  const {
+    _id,
+    name,
+    role,
+    availability,
+    contactNumber,
+    location,
+    salary,
+    description,
+  } = docs;
+  res.render("editviewProfile", {
+    _id,
+    name,
+    role,
+    availability,
+    contactNumber,
+    location,
+    salary,
+    description,
+    userAuthenticated: req.userId,
+  });
+});
 
+router.post("/edit/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      name,
+      role,
+      availability,
+      contactNumber,
+      location,
+      salary,
+      description,
+    } = req.body;
+    // Assuming availability is a boolean, convert it to a boolean value
+    const isAvailable = availability === "true";
+    // Assuming you have a model named Upload
+    const updatedJob = await Upload.findByIdAndUpdate(
+      id,
+      {
+        name: name,
+        role: role,
+        availability: isAvailable,
+        contactNumber: contactNumber,
+        location: location,
+        salary: salary,
+        description: description,
+      },
+      { new: true } // Return the updated document
+    );
+    // You can redirect the user to another page or send a response accordingly
+    res.redirect("/api/view");
+  } catch (error) {
+    console.error("Error handling form submission:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+router.post("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Upload.findByIdAndDelete(id);
+    res.redirect("/api/view");
+  } catch (error) {
+    console.error("Error handling form submission:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 module.exports = router;

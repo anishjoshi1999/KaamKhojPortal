@@ -20,6 +20,10 @@ const uploadSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  availability: {
+    type: Boolean,
+    default: true,
+  },
   createdTime: {
     type: Date,
     default: Date.now,

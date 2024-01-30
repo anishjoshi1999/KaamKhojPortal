@@ -40,7 +40,7 @@
     <h3 class="display-6 text-center">
       Upload Information of Job Seeker's or Provider's
     </h3>
-    <form action="/api/upload" method="POST">
+    <form action="/api/edit/<%=_id%>" method="POST">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input
@@ -49,35 +49,26 @@
           id="name"
           name="name"
           required
+          value="<%=name%>"
         />
       </div>
-
       <div class="mb-3">
         <label class="form-label">Role</label>
         <div class="form-check">
-          <input
-            type="radio"
-            id="jobProvider"
-            name="role"
-            class="form-check-input"
-            value="jobProvider"
-            required
-          />
+          <input type="radio" id="jobProvider" name="role"
+          class="form-check-input" value="jobProvider" required <% if (role ===
+          'jobProvider') { %>checked<% } %> />
           <label for="jobProvider" class="form-check-label">Job Provider</label>
         </div>
 
         <div class="form-check">
-          <input
-            type="radio"
-            id="jobSeeker"
-            name="role"
-            class="form-check-input"
-            value="jobSeeker"
-            required
-          />
+          <input type="radio" id="jobSeeker" name="role"
+          class="form-check-input" value="jobSeeker" required <% if (role ===
+          'jobSeeker') { %>checked<% } %> />
           <label for="jobSeeker" class="form-check-label">Job Seeker</label>
         </div>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Availability</label>
         <div class="form-check">
@@ -88,7 +79,7 @@
             class="form-check-input"
             value="true"
             required
-            checked
+            <% if (availability === true) { %>checked<% } %>
           />
           <label for="availabilityYes" class="form-check-label">Yes</label>
         </div>
@@ -101,6 +92,7 @@
             class="form-check-input"
             value="false"
             required
+            <% if (availability === false) { %>checked<% } %>
           />
           <label for="availabilityNo" class="form-check-label">No</label>
         </div>
@@ -114,6 +106,7 @@
           id="contactNumber"
           name="contactNumber"
           required
+          value="<%= contactNumber %>"
         />
       </div>
 
@@ -125,6 +118,7 @@
           id="location"
           name="location"
           required
+          value="<%= location %>"
         />
       </div>
 
@@ -136,6 +130,7 @@
           id="salary"
           name="salary"
           required
+          value="<%= salary %>"
         />
       </div>
 
@@ -147,7 +142,9 @@
           name="description"
           rows="3"
           required
-        ></textarea>
+        >
+<%= description %></textarea
+        >
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
