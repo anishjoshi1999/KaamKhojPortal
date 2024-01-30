@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI;
 const APIKEY = process.env.APIKEY;
 const DEVICEID = process.env.DEVICEID;
+const FACEBOOK_PAGE = process.env.FACEBOOK_PAGE_ID;
+const ACCESS_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN;
 
 module.exports = {
   jwtSecret,
@@ -14,4 +16,6 @@ module.exports = {
   MONGODB_URI,
   APIKEY,
   DEVICEID,
+  FACEBOOK_PAGE,
+  ACCESS_TOKEN,
 };

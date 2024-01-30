@@ -41,6 +41,7 @@ app.use(methodOverride("_method"));
 // Import Routes
 const kaamKhojRoute = require("./Routes/kaamKhoj");
 const apiRoute = require("./Routes/apiRoute");
+const facebookRoute = require("./Routes/facebookRoute");
 
 // Connect to MongoDB
 connectDB(MONGODB_URI);
@@ -112,6 +113,9 @@ app.use("/api", authMiddleware, apiRoute);
 
 // KaamKhoj routes
 app.use("/kaamkhoj", authMiddleware, kaamKhojRoute);
+
+//Facebook Route
+app.use("/facebook", authMiddleware, facebookRoute);
 
 // 404 Route
 app.use((req, res, next) => {

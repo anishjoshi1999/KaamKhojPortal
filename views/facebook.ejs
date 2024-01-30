@@ -1,0 +1,48 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="container mt-4">
+    <a href="/facebook" class="btn btn-primary">Refresh Data</a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">S.N</th>
+        <th scope="col">Message</th>
+        <th scope="col">Likes and Comments</th>
+        <th scope="col">Created Time</th>
+        <th scope="col">Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach((element, index) => { %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td>
+            <% if (element.message) { %>
+                <a target="_blank" href="<%=element.permalink_url%>"> <%= element.message %></a>
+            <% } else { %>
+              Photo Post
+            <% } %>
+          </td>
+          <td>
+            <% if (element.likes) { %>
+              <%= element.likes.data.length %> Likes, 
+            <% } %>
+            <% if (element.comments && element.comments.data) { %>
+              <%= element.comments.data.length %> Comments
+            <% } %>
+          </td>
+          <td><%= element.created_time %></td>
+          <td>
+            <% if (element.full_picture) { %>
+              <a href="<%= element.full_picture %>" target="_blank" class="btn btn-primary">View Image</a>
+            <% } else { %>
+              No Image
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('./partials/footer.ejs') %>
