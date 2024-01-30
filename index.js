@@ -50,9 +50,9 @@ const { authMiddleware } = require("./Middleware/middleware");
 // Admin Route
 app.get("/auth", async (req, res) => {
   try {
-    res.render("login.ejs", { userAuthenticated: req.userId });
+    res.render("login.ejs");
   } catch (error) {
-    console.log(error);
+    res.render("error");
   }
 });
 
@@ -86,8 +86,7 @@ app.get("/", authMiddleware, async (req, res) => {
   try {
     res.render("index.ejs", { userAuthenticated: req.userId });
   } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs");
+    res.render("error", { error });
   }
 });
 

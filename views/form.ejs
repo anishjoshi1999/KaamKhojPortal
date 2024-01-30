@@ -1,41 +1,6 @@
 <%- include('./partials/header.ejs') %>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">KaamKhoj</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/api/jobs"
-            >HamroBazzar</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/upload">Upload Information</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/view">View Profile</a>
-        </li>
-      </ul>
-      <% if (userAuthenticated) { %>
-      <!-- Show logout button if user is authenticated -->
-      <a href="/logout" class="btn btn-outline-danger">Logout</a>
-      <% } %>
-    </div>
-  </div>
-</nav>
 
-<div style="margin-top: 80px">
+<div style="margin-top: 80px;">
   <div class="container">
     <h3 class="display-6 text-center">
       Upload Information of Job Seeker's or Provider's
@@ -43,115 +8,58 @@
     <form action="/api/upload" method="POST">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="name"
-          required
-        />
+        <input type="text" class="form-control" id="name" name="name" required>
       </div>
 
       <div class="mb-3">
         <label class="form-label">Role</label>
         <div class="form-check">
-          <input
-            type="radio"
-            id="jobProvider"
-            name="role"
-            class="form-check-input"
-            value="jobProvider"
-            required
-          />
+          <input type="radio" id="jobProvider" name="role" class="form-check-input" value="jobProvider" required>
           <label for="jobProvider" class="form-check-label">Job Provider</label>
         </div>
 
         <div class="form-check">
-          <input
-            type="radio"
-            id="jobSeeker"
-            name="role"
-            class="form-check-input"
-            value="jobSeeker"
-            required
-          />
+          <input type="radio" id="jobSeeker" name="role" class="form-check-input" value="jobSeeker" required>
           <label for="jobSeeker" class="form-check-label">Job Seeker</label>
         </div>
       </div>
+
       <div class="mb-3">
         <label class="form-label">Availability</label>
         <div class="form-check">
-          <input
-            type="radio"
-            id="availabilityYes"
-            name="availability"
-            class="form-check-input"
-            value="true"
-            required
-            checked
-          />
+          <input type="radio" id="availabilityYes" name="availability" class="form-check-input" value="true" required checked>
           <label for="availabilityYes" class="form-check-label">Yes</label>
         </div>
-      
+
         <div class="form-check">
-          <input
-            type="radio"
-            id="availabilityNo"
-            name="availability"
-            class="form-check-input"
-            value="false"
-            required
-          />
+          <input type="radio" id="availabilityNo" name="availability" class="form-check-input" value="false" required>
           <label for="availabilityNo" class="form-check-label">No</label>
         </div>
       </div>
 
       <div class="mb-3">
         <label for="contactNumber" class="form-label">Contact Number</label>
-        <input
-          type="tel"
-          class="form-control"
-          id="contactNumber"
-          name="contactNumber"
-          required
-        />
+        <input type="tel" class="form-control" id="contactNumber" name="contactNumber" required>
       </div>
 
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
-        <input
-          type="text"
-          class="form-control"
-          id="location"
-          name="location"
-          required
-        />
+        <input type="text" class="form-control" id="location" name="location" required>
       </div>
 
       <div class="mb-3">
         <label for="salary" class="form-label">Salary</label>
-        <input
-          type="text"
-          class="form-control"
-          id="salary"
-          name="salary"
-          required
-        />
+        <input type="text" class="form-control" id="salary" name="salary" required>
       </div>
 
       <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea
-          class="form-control"
-          id="description"
-          name="description"
-          rows="3"
-          required
-        ></textarea>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
       </div>
 
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
   </div>
 </div>
+
 <%- include('./partials/footer.ejs') %>

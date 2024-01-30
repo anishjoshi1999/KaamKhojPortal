@@ -9,8 +9,7 @@ router.get("/jobs", async (req, res) => {
     let jobsData = await jobFilterMethod();
     res.render("kaamkhoj.ejs", { jobsData, userAuthenticated: req.userId });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.render("error");
   }
 });
 
@@ -23,8 +22,7 @@ router.post("/jobs", async (req, res) => {
       userAuthenticated: req.userId,
     });
   } catch (error) {
-    console.error("Error fetching data from the API:", error.message);
-    res.render("error.ejs"); // Render an error page or handle the error accordingly
+    res.render("error");
   }
 });
 router.get("/upload", async (req, res) => {
@@ -47,8 +45,7 @@ router.post("/upload", async (req, res) => {
     const savedUpload = await newUpload.save();
     res.redirect("/");
   } catch (error) {
-    console.error("Error handling form submission:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.render("error");
   }
 });
 router.get("/search", async (req, res) => {
@@ -101,8 +98,7 @@ router.get("/search", async (req, res) => {
 
     res.render("show.ejs", { jobsData: value, userAuthenticated: req.userId });
   } catch (error) {
-    console.error("Error while searching:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.render("error");
   }
 });
 
@@ -114,8 +110,7 @@ router.get("/view", async (req, res) => {
       userAuthenticated: req.userId,
     });
   } catch (error) {
-    console.error("Error handling form submission:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.render("error");
   }
 });
 router.get("/view/:id", async (req, res) => {
@@ -175,8 +170,7 @@ router.post("/edit/:id", async (req, res) => {
     // You can redirect the user to another page or send a response accordingly
     res.redirect("/api/view");
   } catch (error) {
-    console.error("Error handling form submission:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.render("error");
   }
 });
 router.post("/delete/:id", async (req, res) => {
@@ -185,8 +179,7 @@ router.post("/delete/:id", async (req, res) => {
     await Upload.findByIdAndDelete(id);
     res.redirect("/api/view");
   } catch (error) {
-    console.error("Error handling form submission:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.render("error");
   }
 });
 module.exports = router;

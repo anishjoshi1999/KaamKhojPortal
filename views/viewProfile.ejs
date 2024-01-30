@@ -1,32 +1,7 @@
 <%- include('./partials/header.ejs') %>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">KaamKhoj</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/api/jobs">HamroBazzar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/upload">Upload Information</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/view">View Profile</a>
-        </li>
-      </ul>
-      <% if (userAuthenticated) { %>
-      <!-- Show logout button if user is authenticated -->
-      <a href="/logout" class="btn btn-outline-danger">Logout</a>
-      <% } %>
-    </div>
-  </div>
-</nav>
 
 <div style="margin-top: 80px;">
-  <div class="vh-100">
+  <div class="container vh-100">
     <h2 class="text-center">Total Records: <%= jobsData.length %></h2>
     <table class="table table-bordered table-hover">
       <thead class="thead-dark">
@@ -45,49 +20,44 @@
       </thead>
       <tbody>
         <% if (Array.isArray(jobsData) && jobsData.length > 0) { %>
-        <% jobsData.forEach((job, index) => { %>
-        <tr>
-          <td><%= index + 1 %></td>
-          <td><%= job.name %></td>
-          <td><%= job.salary %></td>
-          <td><%= job.description %></td>
-          <td><%= job.role %></td>
-          <td><%= job.contactNumber %></td>
-          <td><%= job.location %></td>
-          <td class="<%= job.availability ? 'bg-success' : 'bg-danger' %> text-white">
-            <%= job.availability.toString().toUpperCase() %>
-          </td>          
-          <td><%= job.createdTime.toLocaleString() %></td>
-          <td>
-            <form action="#" method="GET" style="display: inline;">
-              <button type="submit" class="btn btn-sm btn-success">View</button>
-            </form>
-            <form action="/api/view/<%=job._id%>" method="GET" style="display: inline;">
-              <!-- Hidden input fields with the job data -->
-              <input type="hidden" name="name" value="<%= job.name %>">
-              <input type="hidden" name="salary" value="<%= job.salary %>">
-              <input type="hidden" name="description" value="<%= job.description %>">
-              <input type="hidden" name="role" value="<%= job.role %>">
-              <input type="hidden" name="contactNumber" value="<%= job.contactNumber %>">
-              <input type="hidden" name="location" value="<%= job.location %>">
-              <input type="hidden" name="availability" value="<%= job.availability %>">
-              <input type="hidden" name="createdTime" value="<%= job.createdTime %>">
-              <button type="submit" class="btn btn-sm btn-primary">Edit</button>
-            </form>
-            <form action="/api/delete/<%= job._id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-            </form>
-          </td>
-        </tr>
-        <% }) %>
+          <% jobsData.forEach((job, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= job.name %></td>
+              <td><%= job.salary %></td>
+              <td><%= job.description %></td>
+              <td><%= job.role %></td>
+              <td><%= job.contactNumber %></td>
+              <td><%= job.location %></td>
+              <td class="<%= job.availability ? 'bg-success' : 'bg-danger' %> text-white">
+                <%= job.availability.toString().toUpperCase() %>
+              </td>
+              <td><%= job.createdTime.toLocaleString() %></td>
+              <td>
+                <div class="btn-group">
+                  <form action="/api/view/<%=job._id%>" method="GET" style="display: inline;">
+                    <!-- Hidden input fields with the job data -->
+                    <% Object.entries(job).forEach(([key, value]) => { %>
+                      <input type="hidden" name="<%= key %>" value="<%= value %>">
+                    <% }) %>
+                    <button type="submit" class="btn btn-sm btn-primary mr-1">Edit</button>
+                  </form>
+                  <form action="/api/delete/<%= job._id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this record?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
         <% } else { %>
-        <tr>
-          <td colspan="9" class="text-center">No data available</td>
-        </tr>
+          <tr>
+            <td colspan="10" class="text-center">No data available</td>
+          </tr>
         <% } %>
       </tbody>
     </table>
   </div>
 </div>
+
 <%- include('./partials/footer.ejs') %>

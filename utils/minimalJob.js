@@ -9,21 +9,15 @@ async function fetchData() {
       {
         headers: {
           accept: "application/json, text/plain, */*",
-          "accept-language": "en-GB,en-US;q=0.9,en;q=0.8,la;q=0.7,ne;q=0.6",
           "access-control-allow-origin": "*",
-          apikey: `${APIKEY}`,
-          "cache-control": "no-cache",
+          apikey: APIKEY,
           country_code: "null",
-          deviceid: `${DEVICEID}`,
+          deviceid: DEVICEID,
           devicesource: "web",
-          pragma: "no-cache",
           "sec-ch-ua":
-            '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+            '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
           "sec-ch-ua-mobile": "?0",
           "sec-ch-ua-platform": '"Windows"',
-          "sec-fetch-dest": "empty",
-          "sec-fetch-mode": "cors",
-          "sec-fetch-site": "same-site",
           "strict-transport-security": "max-age=2592000",
           "x-content-type-options": "nosniff",
           "x-frame-options": "SAMEORIGIN",
@@ -34,7 +28,6 @@ async function fetchData() {
         method: "GET",
       }
     );
-
     const withPhoneNumbers = response.data.data.filter((element) => {
       return !element.creatorInfo.createdByUsername.includes("*");
     });

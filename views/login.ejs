@@ -1,45 +1,82 @@
-<%- include('./partials/header.ejs')  %>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">KaamKhoj</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/api/jobs">HamroBazzar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/upload">Upload Information</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/view">View Profile</a>
-        </li>
-      </ul>
-      <% if (userAuthenticated) { %>
-        <!-- Show logout button if user is authenticated -->
-        <a href="/logout" class="btn btn-outline-danger">Logout</a>
-      <% }  %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaamKhoj</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+    
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
+
+body{
+  font-family: 'Barlow', sans-serif;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.border-left{
+  border-left: 2px solid var(--primary) !important;
+}
+
+
+.sidebar{
+  top: 0;
+  left : 0;
+  z-index : 100;
+  overflow-y: auto;
+}
+
+.overlay{
+  background-color: rgb(0 0 0 / 45%);
+  z-index: 99;
+}
+
+/* sidebar for small screens */
+@media screen and (max-width: 767px){
+  
+  .sidebar{
+    max-width: 18rem;
+    transform : translateX(-100%);
+    transition : transform 0.4s ease-out;
+  }
+  
+  .sidebar.active{
+    transform : translateX(0);
+  }
+  
+}
+    </style>
+</head>
+<body>
+  <div style="margin-top: 80px;">
+    <div class="container">
+      <h3 class="display-6 text-center mb-4">KaamKhoj Portal</h3>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form action="/auth" method="POST">
+            <div class="mb-3">
+              <label for="name" class="form-label">Username</label>
+              <input type="text" class="form-control" id="name" name="username" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
-
-<div style="margin-top: 80px;"><div class="container">
-  <h3 class="display-6 text-center">KaamKhoj Portal</h3>
-  <form action="/auth" method="POST">
-    <div class="mb-3">
-      <label for="name" class="form-label">Username</label>
-      <input type="text" class="form-control" id="name" name="username" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-</div>
-<%- include('./partials/footer.ejs')  %>
+  <footer class="footer text-center">
+    &copy; <%= new Date().getFullYear(); %> KaamKhoj
+  </footer>
+</body>
+</html>

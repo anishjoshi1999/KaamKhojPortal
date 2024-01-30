@@ -1,65 +1,43 @@
-<%- include('./partials/header.ejs') %>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">KaamKhoj</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/api/jobs">HamroBazzar</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/upload">Upload Information</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/api/view">View Profile</a>
-        </li>
-      </ul>
-      <% if (userAuthenticated) { %>
-        <!-- Show logout button if user is authenticated -->
-        <a href="/logout" class="btn btn-outline-danger">Logout</a>
-      <% } %>
-       
+<%- include('./partials/header.ejs')  %>
+
+<!-- main content -->
+<main class="container-fluid">
+  <section class="row">
+    <div class="col-md-6 col-lg-4">
+      <!-- card -->
+      <article class="p-4 rounded shadow-sm border-left mb-4">
+        <a href="/api/jobs" class="d-flex align-items-center">
+          <span class="bi bi-box h5"></span>
+          <h5 class="ml-2">HamroBazzar</h5>
+        </a>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <article class="p-4 rounded shadow-sm border-left mb-4">
+        <a href="/api/upload" class="d-flex align-items-center">
+          <span class="bi bi-person h5"></span>
+          <h5 class="ml-2">Upload</h5>
+        </a>
+      </article>
+    </div>
+    <div class="col-md-6 col-lg-4">
+      <article class="p-4 rounded shadow-sm border-left mb-4">
+        <a href="/api/view" class="d-flex align-items-center">
+          <span class="bi bi-person-check h5"></span>
+          <h5 class="ml-2">View Information</h5>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <div class="jumbotron jumbotron-fluid rounded bg-white border-0 shadow-sm border-left px-4">
+    <div class="container">
+      <h1 class="display-4 mb-2 text-primary">KaamKhoj</h1>
+      <p class="lead text-muted">
+        KaamKhoj Web Portal
+      </p>
     </div>
   </div>
-</nav>
+</main>
 
-<div style="margin-top: 50px;">
-  <div class="container py-5 vh-100">
-    <div class="row">
-      <div class="col-12 col-md-6 col-lg-4 mb-4">
-        <div class="card">
-          <div class="card-body text-center">
-            <h2 class="card-title mb-4">Job Provider's from HamroBazzar</h2>
-            <a href="/api/jobs" class="btn btn-lg btn-primary">View Jobs</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4 mb-4">
-        <div class="card">
-          <div class="card-body text-center">
-            <h2 class="card-title mb-4">Upload Job Seekers / Providers Information</h2>
-            <a href="/api/upload" class="btn btn-lg btn-primary">Upload Information</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12 col-md-6 col-lg-4 mb-4">
-        <div class="card">
-          <div class="card-body text-center">
-            <h2 class="card-title mb-4">View Profile (Seeker's and Provider's)</h2>
-            <a href="/api/view" class="btn btn-lg btn-primary">View Profile</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-  <%- include('./partials/footer.ejs') %>
+<%- include('./partials/footer.ejs')  %>
