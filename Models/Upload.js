@@ -8,6 +8,10 @@ const uploadSchema = new mongoose.Schema({
     type: String,
     enum: ["jobProvider", "jobSeeker"],
   },
+  specificJob: {
+    type: String,
+    enum: ["cook", "helperMaid", "driver", "sales", "other"],
+  },
   contactNumber: {
     type: String,
   },

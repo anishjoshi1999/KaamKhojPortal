@@ -10,6 +10,7 @@
           <th scope="col">Job Name</th>
           <th scope="col">Salary</th>
           <th scope="col">Job Description</th>
+          <th scope="col">Specific Job</th> 
           <th scope="col">Job Seeker / Provider</th>
           <th scope="col">Contact Number</th>
           <th scope="col">Location</th>
@@ -26,7 +27,8 @@
               <td><%= job.name %></td>
               <td><%= job.salary %></td>
               <td><%= job.description %></td>
-              <td><%= job.role %></td>
+              <td><%= job.specificJob.toUpperCase() || "N/A" %>
+              <td><%= job.role.toUpperCase() %></td>
               <td><%= job.contactNumber %></td>
               <td><%= job.location %></td>
               <td class="<%= job.availability ? 'bg-success' : 'bg-danger' %> text-white">

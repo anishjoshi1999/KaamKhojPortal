@@ -35,6 +35,7 @@ router.post("/upload", async (req, res) => {
     const newUpload = new Upload({
       name: req.body.name,
       role: req.body.role,
+      specificJob: req.body.specificJob,
       contactNumber: req.body.contactNumber,
       location: req.body.location,
       salary: req.body.salary,
@@ -42,9 +43,10 @@ router.post("/upload", async (req, res) => {
       availability: availability,
     });
     // Save the new upload to the database
-    const savedUpload = await newUpload.save();
+    let temp = await newUpload.save();
     res.redirect("/");
   } catch (error) {
+    console.log(error);
     res.render("error");
   }
 });
@@ -120,6 +122,7 @@ router.get("/view/:id", async (req, res) => {
     _id,
     name,
     role,
+    specificJob,
     availability,
     contactNumber,
     location,
@@ -130,6 +133,7 @@ router.get("/view/:id", async (req, res) => {
     _id,
     name,
     role,
+    specificJob,
     availability,
     contactNumber,
     location,

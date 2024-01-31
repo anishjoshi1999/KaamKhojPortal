@@ -23,7 +23,17 @@
           <label for="jobSeeker" class="form-check-label">Job Seeker</label>
         </div>
       </div>
-
+      <div class="mb-3">
+        <label for="specificJob" class="form-label">Specific Job</label>
+        <select class="form-select form-control" id="specificJob" name="specificJob" required aria-label=".form-select-sm example">
+          <option value="" disabled selected>Select Specific Job</option>
+          <option value="cook">Cook</option>
+          <option value="helperMaid">Helper/Maid</option>
+          <option value="driver">Driver</option>
+          <option value="sales">Sales</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
       <div class="mb-3">
         <label class="form-label">Availability</label>
         <div class="form-check">

@@ -3,7 +3,7 @@
 <div style="margin-top: 80px;">
   <div class="container">
     <h3 class="display-6 text-center">
-      Upload Information of Job Seeker's or Provider's
+      Edit Information of Job Seeker's or Provider's
     </h3>
     <form action="/api/edit/<%=_id%>" method="POST">
       <div class="mb-3">
@@ -23,7 +23,17 @@
           <label for="jobSeeker" class="form-check-label">Job Seeker</label>
         </div>
       </div>
-
+      <div class="mb-3">
+        <label for="specificJob" class="form-label">Specific Job</label>
+        <select class="form-select form-control"  id="specificJob" name="specificJob" required>
+          <option value="" disabled>Select Specific Job</option>
+          <option value="cook" <% if (specificJob === 'cook') { %>selected<% } %>>Cook</option>
+          <option value="helper" <% if (specificJob === 'helperMaid') { %>selected<% } %>>Helper/Maid</option>
+          <option value="driver" <% if (specificJob === 'driver') { %>selected<% } %>>Driver</option>
+          <option value="sales" <% if (specificJob === 'sales') { %>selected<% } %>>Sales</option>
+          <option value="other" <% if (specificJob === 'other') { %>selected<% } %>>Other</option>
+        </select>
+      </div>
       <div class="mb-3">
         <label class="form-label">Availability</label>
         <div class="form-check">
