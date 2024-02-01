@@ -93,7 +93,7 @@
     labels: ['Cook', 'Helper', 'Driver', 'Sales', 'Others'],
     datasets: [{
       label: 'Job Seekers',
-      data: [1200, 1900, 300, 500, 200, 300],
+      data: [<%=records.seekerSpecificJobCounts.cook%>, <%=records.seekerSpecificJobCounts.helperMaid%>, <%=records.seekerSpecificJobCounts.driver%>, <%=records.seekerSpecificJobCounts.sales%>, <%=records.seekerSpecificJobCounts.cook%>, <%=records.seekerSpecificJobCounts.other%>],
       backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',
@@ -138,7 +138,7 @@
     labels: ['Cook', 'Helper', 'Driver', 'Sales', 'Others'],
     datasets: [{
       label: 'Job Providers',
-      data: [1200, 1900, 300, 500, 200, 300],
+      data: [<%=records.providerSpecificJobCounts.cook%>, <%=records.providerSpecificJobCounts.helperMaid%>, <%=records.providerSpecificJobCounts.driver%>, <%=records.providerSpecificJobCounts.sales%>, <%=records.providerSpecificJobCounts.cook%>, <%=records.providerSpecificJobCounts.other%>],
       backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',

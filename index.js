@@ -11,6 +11,7 @@ const Upload = require("./Models/Upload");
 const methodOverride = require("method-override");
 const jwt = require("jsonwebtoken");
 const { jwtSecret, PORT, MONGODB_URI } = require("./utils/constants");
+const { countSpecificJobs } = require("./utils/countSpecific");
 // Load environment variables
 dotenv.config();
 
@@ -79,7 +80,7 @@ app.post("/auth", async (req, res) => {
 
 // Logout route
 app.get("/logout", async (req, res) => {
-  await res.clearCookie("token");
+  res.clearCookie("token");
   res.redirect("/");
 });
 
@@ -88,21 +89,13 @@ app.get("/", authMiddleware, async (req, res) => {
   try {
     // Count job seekers
     const allRecords = await Upload.find({});
-
-    // Count job providers
-    // Use array methods to filter job seekers and job providers
-    const jobSeekerCount = allRecords.filter(
-      (record) => record.role === "jobSeeker"
-    ).length;
-    const jobProviderCount = allRecords.filter(
-      (record) => record.role === "jobProvider"
-    ).length;
+    let records = countSpecificJobs(allRecords);
     let count = {
-      jobSeekerCount,
-      jobProviderCount,
+      jobSeekerCount: records.seekerSpecificJobCounts.totalCount,
+      jobProviderCount: records.providerSpecificJobCounts.totalCount,
     };
 
-    res.render("index.ejs", { userAuthenticated: req.userId, count });
+    res.render("index.ejs", { userAuthenticated: req.userId, count, records });
   } catch (error) {
     res.render("error", { error });
   }
