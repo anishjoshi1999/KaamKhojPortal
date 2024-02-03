@@ -33,7 +33,7 @@ async function fetchData() {
     });
     //Add Brokers if you want to exclude them
     const excludeRegex =
-      /^(Paramount Management Solution Pvt\.Ltd|Malaxmi Job Placement|Meraki Job)$/i;
+      /^(Paramount Management Solution Pvt\.Ltd|Malaxmi Job Placement|Meraki Job|Urgent Job Wanted|Looking For Job|Online Typing)$/i;
 
     const withoutBroker = withPhoneNumbers.filter((element) => {
       const createdByName = element.creatorInfo.createdByName;
