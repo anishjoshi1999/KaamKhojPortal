@@ -31,11 +31,19 @@ async function fetchData() {
     const withPhoneNumbers = response.data.data.filter((element) => {
       return !element.creatorInfo.createdByUsername.includes("*");
     });
+    const excludeNonsense =
+      /^(Driver|Contact Me|Need Driver|Chahiyema|Online Typing|I Need Job|Job Wanted|Hire|Job Needed|Jobs|Internship|Jobs|Contact Me|Contact|Call Me)$/i;
+
+    // Without Nonsense
+    const withoutNonsense = withPhoneNumbers.filter((element) => {
+      const createdByName = element.name;
+      return !excludeNonsense.test(createdByName && createdByName.trim());
+    });
     //Add Brokers if you want to exclude them
     const excludeRegex =
-      /^(Paramount Management Solution Pvt\.Ltd|Malaxmi Job Placement|Meraki Job|Urgent Job Wanted|Looking For Job|Online Typing)$/i;
+      /^(Paramount Management Solution Pvt\.Ltd|Malaxmi Job Placement|Meraki Job|Radhika Chaudhary)$/i;
 
-    const withoutBroker = withPhoneNumbers.filter((element) => {
+    const withoutBroker = withoutNonsense.filter((element) => {
       const createdByName = element.creatorInfo.createdByName;
       return !excludeRegex.test(createdByName && createdByName.trim());
     });

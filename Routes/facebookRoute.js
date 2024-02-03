@@ -3,6 +3,7 @@ const axios = require("axios");
 const { ACCESS_TOKEN, FACEBOOK_PAGE } = require("../utils/constants");
 const router = express.Router();
 const { fetchData } = require("../utils/minimalJob");
+const { jobFilterMethod } = require("../utils/filterMethod");
 const Job = require("../Models/Job");
 
 router.get("/", async (req, res) => {
@@ -21,9 +22,15 @@ router.get("/post", async (req, res) => {
   //Update the database
   await fetchData();
   //find the latest Job
-  let jobs = await Job.find({});
-  console.log(jobs);
-  let randomJobs = getRandomObjects(jobs[0].total);
+  let jobs = await jobFilterMethod();
+  let jobsWithOutDriver = [];
+  jobs.forEach((element) => {
+    if (element.name != "Driving Jobs") {
+      jobsWithOutDriver.push(...element.jobs);
+    }
+  });
+
+  let randomJobs = getRandomObjects(jobsWithOutDriver);
   let uniqueJobs = filterUniqueJobs(randomJobs);
   const combinedNews = uniqueJobs
     .map((element, index) => {
